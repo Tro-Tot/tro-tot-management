@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const initialState = {
     test: false
 }
-export const name = "isEditMtestode";
+export const name = "test";
 const slice = createSlice({
     name,
     initialState,

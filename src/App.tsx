@@ -1,9 +1,10 @@
+import Test from "./pages/test";
 
 
 function App() {
   return (
     <>
-      Hello
+      <Test/>
     </>
   );
 }

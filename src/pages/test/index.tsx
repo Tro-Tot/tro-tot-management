@@ -9,21 +9,21 @@ const Test: React.FC = () => {
   function handleClick(){
     dispatch(changeMode());
   }
-    
+    const testValue = test ? 'true' : 'false';
   
   return (
     <div className='flex justify-center items-center  w-full h-full'>
       <button
+        className='bg-blue-500 text-white px-4 py-2 rounded'
+      
       onClick={handleClick}
       >
-        test 
+        change value 
       </button>
       <div className='font-bold text-red-400 w-11 h-20'>
-        {test}
+        {testValue} 
       </div>
-      <div>
-        dsakl;djaskldjaslkj
-      </div>
+
     </div>
   )
 }
