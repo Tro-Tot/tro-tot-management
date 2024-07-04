@@ -1,10 +1,8 @@
-import Test from "./pages/test";
-
-
+import RouterComponent from 'routes';
 function App() {
   return (
     <>
-      <Test/>
+      <RouterComponent />
     </>
   );
 }
