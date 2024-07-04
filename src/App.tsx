@@ -1,4 +1,5 @@
-import RouterComponent from 'routes';
+import RouterComponent from '@';
+
 function App() {
   return (
     <>

@@ -5,12 +5,13 @@ import {
 } from 'react-router-dom';
 import CustomerRouter from './CustomerRoute';
 import ManagerRoute from './ManagerRoute';
-import ManagerLayout from 'layouts/ManagerLayout';
-import CustomerLayout from 'layouts/CustomerLayout';
-import Loading from 'components/Loading';
-import Home from 'pages/home';
-import Login from 'pages/login';
-import Test from 'pages/test';
+
+import CustomerLayout from '@/layouts/CustomerLayout';
+import Loading from '@/components/Loading';
+import Home from '@/pages/home';
+import Login from '@/pages/login';
+import Test from '@/pages/test';
+import ManagerLayout from '@/layouts/ManagerLayout';
 
 const RouterComponent: React.FC = () => {
   const router = createBrowserRouter([
