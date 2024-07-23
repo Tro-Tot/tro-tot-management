@@ -1,10 +1,9 @@
-import Test from "./pages/test";
-
+import RouterComponent from '@';
 
 function App() {
   return (
     <>
-      <Test/>
+      <RouterComponent />
     </>
   );
 }
