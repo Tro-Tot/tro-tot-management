@@ -1,15 +1,14 @@
 import { defineConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import react from '@vitejs/plugin-react';
+import { resolve } from 'path';
 
-// https://vitejs.dev/config/
+const root = resolve(__dirname, 'src');
 export default defineConfig({
-  plugins: [react()],
+  plugins: [tsconfigPaths(), react()],
   resolve: {
-    // alias: {
-    //   '@': path.resolve(__dirname, './src'),
-    // },
     alias: {
-      '@/': `${process.cwd()}/src/`,
+      '@': root, // This line maps '@/' to 'src'
     },
   },
 });
