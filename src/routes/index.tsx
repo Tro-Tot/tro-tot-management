@@ -5,13 +5,13 @@ import {
 } from 'react-router-dom';
 import CustomerRouter from './CustomerRoute';
 import ManagerRoute from './ManagerRoute';
-
 import CustomerLayout from '@/layouts/CustomerLayout';
 import Loading from '@/components/Loading';
 import Home from '@/pages/home';
 import Login from '@/pages/login';
 import Test from '@/pages/test';
 import ManagerLayout from '@/layouts/ManagerLayout';
+import Demo from '@/pages/demo/Demo';
 
 const RouterComponent: React.FC = () => {
   const router = createBrowserRouter([
@@ -39,7 +39,10 @@ const RouterComponent: React.FC = () => {
       path: '/test',
       element: <Test />,
     },
-
+    {
+      path: '/demo',
+      element: <Demo />,
+    },
     {
       path: '/',
       element: <CustomerRouter />,

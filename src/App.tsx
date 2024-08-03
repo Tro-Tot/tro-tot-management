@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/button';
+import RouterComponent from './routes';
 
 function App() {
   return (
     <div className="App">
-      <span className="text-primaryLight">Settings</span>
+      <RouterComponent />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-const Colors = {
+export const Colors = {
   primaryLightBackgroundColor: '#0866FF',
   primaryDarkBackgroundColor: '#070054',
   secondaryBackgroundColor: '#FFFFFF',
@@ -33,5 +33,3 @@ const Colors = {
     hl: '#cccccc',
   },
 };
-
-export default Colors;
