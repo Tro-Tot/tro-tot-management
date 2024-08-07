@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import axios, { AxiosResponse } from "axios";
-
 const defaultURL = "https://[::1]:8000/api";
 
-interface ApiCallParams {
+export interface ApiCallParams {
     method: string;
     url: string;
     headers?: Record<string, string>;
@@ -26,14 +24,14 @@ const ApiCall = (
         params: { ...params },
         data: body,
     };
-    return axios(config);
+    return (config);
 };
 
 export const get = (
     endpoint: string,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): Promise<AxiosResponse> => {
+): ApiCallParams => {
     return ApiCall("GET", endpoint, headers, params);
 };
 
@@ -42,7 +40,7 @@ export const post = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): Promise<AxiosResponse> => {
+): ApiCallParams => {
     return ApiCall("POST", endpoint, headers, params, body);
 };
 
@@ -51,7 +49,7 @@ export const put = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): Promise<AxiosResponse> => {
+): ApiCallParams => {
     return ApiCall("PUT", endpoint, headers, params, body);
 };
 
@@ -60,6 +58,6 @@ export const remove = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): Promise<AxiosResponse> => {
+): ApiCallParams => {
     return ApiCall("DELETE", endpoint, headers, params, body);
 };

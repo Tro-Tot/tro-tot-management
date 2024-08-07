@@ -15,7 +15,7 @@ import ManagerLayout from '@/layouts/ManagerLayout';
 
 const RouterComponent: React.FC = () => {
   const router = createBrowserRouter([
-    { path: '/', element: <Navigate to="home" /> },
+    { path: '/', element: <Navigate to="login" /> },
 
     {
       element: <ManagerRoute />,
