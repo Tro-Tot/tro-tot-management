@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const defaultURL = "https://[::1]:8000/api";
+const defaultURL = "http://localhost:8000";
 
 export interface ApiCallParams {
     method: string;

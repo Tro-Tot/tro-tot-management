@@ -1,16 +1,16 @@
 
 import { get, post } from "../ApiCaller";
-let loginUrl = `/auth/login`;
-let registerUrl = `/auth/register`;
+let loginUrl = `/auth/staff/login`;
+// let registerUrl = `/auth/register`;
 let refreshTokenUrl = `/auth/refresh-token`;
 // let GooogleAuth = `/auth/google-oauth`;
 export const loginApi = {
     login: (email: string, password: string) => {
         return post(loginUrl, { email, password });
     },
-    register: (email: string, password: string) => {
-        return post(registerUrl, { email, password });
-    },
+    // register: (email: string, password: string) => {
+    //     return post(registerUrl, { email, password });
+    // },
     refreshToken: () => {
         return get(refreshTokenUrl);
     },

@@ -1,11 +1,10 @@
 import { Label } from '@/components/ui/label';
 import LoginForm from './components/LoginForm'; 
 import backgroud from '@/assets/images/bg-2.jpg'; 
-import SelectRole from './components/SelectRole';
 const Login: React.FC = () => {
   return (
     <div
-      className="w-full h-full flex justify-center pb-2  bg-[#97bdf6]
+      className="w-full h-full flex justify-center pb-2 bg-white
     lg:grid lg:grid-cols-6 lg:gap-2 lg:h-screen"
     >
       <div
