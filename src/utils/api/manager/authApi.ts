@@ -1,5 +1,5 @@
 
-import { get, post } from "./ApiCaller";
+import { get, post } from "../ApiCaller";
 let loginUrl = `/auth/login`;
 let registerUrl = `/auth/register`;
 let refreshTokenUrl = `/auth/refresh-token`;

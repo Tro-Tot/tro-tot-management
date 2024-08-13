@@ -1,7 +1,7 @@
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Label } from '@/components/ui/label';
 import LoginForm from './components/LoginForm'; 
 import backgroud from '@/assets/images/bg-2.jpg'; 
+import SelectRole from './components/SelectRole';
 const Login: React.FC = () => {
   return (
     <div

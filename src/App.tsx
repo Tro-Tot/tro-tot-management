@@ -4,10 +4,7 @@ import RouterComponent from "./routes";
 
 function App() {
   return (
-    <>
-      <RouterComponent />
-    </>
+    <RouterComponent/>
   );
 }
-
 export default App;

@@ -1,6 +1,8 @@
+/* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+
+  darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
@@ -18,6 +20,8 @@ module.exports = {
     },
     extend: {
       colors: {
+        primaryLight: '#0866FF',
+        primaryDark: '#070054',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -83,3 +87,4 @@ module.exports = {
   },
   plugins: [require("tailwindcss-animate")],
 }
+
