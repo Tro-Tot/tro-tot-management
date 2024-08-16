@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const defaultURL = "http://localhost:8000";
-
+const defaultURL = import.meta.env.VITE_LOCALHOST_URL as string;
 export interface ApiCallParams {
     method: string;
     url: string;

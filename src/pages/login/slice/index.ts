@@ -1,20 +1,23 @@
 import { injectReducer } from "@/store";
 import generateActions from "./generateActions";
 import { createSlice } from "@reduxjs/toolkit";
-import { staff } from "../types";
+import { user } from "../types";
 
-export const initialState = {
+interface userState {
+    user: user | null;
+}
+export const initialState: userState = {
     user: null
 };
 
-export const name = "staff";
+export const name = "user";
 
 const slice = createSlice({
     name,
     initialState,
     reducers: {
         ...generateActions(initialState),
-        setStaff: (state: any, action: any) => {
+        setUser: (state: any, action: { payload: any }) => {
             state.user = action.payload ;
         },
     },

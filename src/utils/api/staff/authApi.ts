@@ -5,8 +5,8 @@ let registerUrl = `/auth/register`;
 let refreshTokenUrl = `/auth/refresh-token`;
 // let GooogleAuth = `/auth/google-oauth`;
 export const loginApi = {
-    login: (username: string, password: string) => {
-        return post(loginUrl, { username, password });
+    login: (email: string, password: string) => {
+        return post(loginUrl, { email, password });
     },
     register: (email: string, password: string) => {
         return post(registerUrl, { email, password });

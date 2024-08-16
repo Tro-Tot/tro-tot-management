@@ -21,7 +21,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { actions } from '../slice';
-import { resolveSoa } from 'dns';
+import { user } from '../types';
+import Cookies from 'js-cookie';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -35,29 +36,28 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
   const { toast } = useToast()
   const VALUES = ['staff', 'tech', 'manager'] as const;
   const formSchema = z.object({
-    // email: z.string().email({
-    //   message: 'Invalid email format.',
-    // }),
-    email: z.string(),
-    password: z.string(),
-    // password: z
-    //   .string()
-    //   .min(8, {
-    //     message:
-    //       'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
-    //   })
-    //   .regex(/[A-Z]/, {
-    //     message: 'Password must contain at least one uppercase letter.',
-    //   })
-    //   .regex(/[a-z]/, {
-    //     message: 'Password must contain at least one lowercase letter.',
-    //   })
-    //   .regex(/[0-9]/, {
-    //     message: 'Password must contain at least one number.',
-    //   })
-    //   .regex(/[!@#$%^&*(),.?":{}|<>]/, {
-    //     message: 'Password must contain at least one special character.',
-    //   }),
+    email: z.string().email({
+      message: 'Invalid email format.',
+    }),
+
+    password: z
+      .string()
+      .min(8, {
+        message:
+          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+      })
+      // .regex(/[A-Z]/, {
+      //   message: 'Password must contain at least one uppercase letter.',
+      // })
+      .regex(/[a-z]/, {
+        message: 'Password must contain at least one lowercase letter.',
+      })
+      .regex(/[0-9]/, {
+        message: 'Password must contain at least one number.',
+      }),
+      // .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      //   message: 'Password must contain at least one special character.',
+      // }),
     role: z.enum(VALUES, {
       required_error: 'Role is required.',
     }),
@@ -95,7 +95,18 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
         if (res.status === 201) {
             switch(res.data.statusCode){
               case 200:
-                
+                const accessToken = res.data.data.accessToken;
+                const refreshToken = res.data.data.refreshToken;
+                const staff: user = res.data.data.user;
+                console.log('staff',staff);
+                console.log(res.data.data.user);
+                staff.accessToken = accessToken;
+                staff.refreshToken = refreshToken;
+                Cookies.set('accessToken', accessToken); // expires in 7 days
+                Cookies.set('refreshToken', refreshToken);
+
+                dispatch(actions.setUser(staff));
+                navigate('/home');
                 break;
               case 400:
                 toast({
@@ -124,36 +135,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
         })
     }
   }
-  // try {
-    //     const res = await loginApi.login(values.email, values.password);
-    //     if (res.status === 200) {
-    //         if (res.data.data) {
-    //             localStorage.setItem(
-    //                 "Token",
-    //                 res.data.data.token.token.accessToken
-    //             );
-    //             toastSuccess("Login Successfully");
-    //             dispatch(actions.setUser(res.data.data.userInfo));
-    //             const roles: string[] = res.data.data.token.roles;
-    //             if (roles.includes("Admin")) {
-    //                 navigate("/admin");
-    //             } else if (roles.includes("Staff")) {
-    //                 navigate("/staff");
-    //             } else {
-    //                 navigate("/home");
-    //             }
-    //         } else {
-    //             toastError(res.data.messages[0].content);
-    //         }
-    //     } else {
-    //         for (const mess of res.data.messages) {
-    //             toastError(mess.content);
-    //         }
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     toastError("Login Error,please try again");
-    // }
+
   return (
     <div className={cn('grid gap-6 lg:mx-10', className)} {...props}>
       <Form {...form}>

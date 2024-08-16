@@ -1,14 +1,16 @@
-export interface staff {
+export interface user {
     id: string;
     email: string;
-    last_name: string;
-    first_name: string;
+    lastName: string;
+    firstName: string;
     username: string;
-    avatar_url: string;
-    date_of_birth?: string;
+    avatarUrl: string;
+    dateOfBirth?: string;
     gender?: string;
-    phone_number?: number;
+    phoneNumber?: number;
     material?: string;
+    accessToken: string;
+    refreshToken: string;
     role: role;
 }
 
