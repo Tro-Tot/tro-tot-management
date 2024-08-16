@@ -17,13 +17,13 @@ const SelectRole: React.FC<Props>= ({field}) => {
   return (
     <Select onValueChange={field.onChange} defaultValue={field.value}>
     <SelectTrigger className="w-[180px]">
-      <SelectValue placeholder="Select your role" />
+      <SelectValue placeholder="Chọn vai trò" />
     </SelectTrigger>
     <SelectContent>
       <SelectGroup>
-        <SelectItem value="staff">Staff</SelectItem>
-        <SelectItem value="tech">Technical Staff</SelectItem>
-        <SelectItem value="manager">Manager</SelectItem>
+        <SelectItem value="staff">Nhân viên quản lí</SelectItem>
+        <SelectItem value="tech">Kiến trúc sư</SelectItem>
+        <SelectItem value="manager">Quản lí</SelectItem>
       </SelectGroup>
     </SelectContent>
   </Select>
