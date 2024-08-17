@@ -2,14 +2,14 @@ import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import useRefreshToken from './useRefreshToken';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import loginSelector from '@/pages/login/slice/selector';
 import { user } from '@/pages/login/types';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import useLogout from './useLogout';
 import { useToast } from './use-toast';
-import { refreshApi } from '@/utils/api/shared/refreshApi';
-import { actions } from '@/pages/login/slice';
+// import { refreshApi } from '@/utils/api/shared/refreshApi';
+// import { actions } from '@/pages/login/slice';
 
 enum HTTP_MESSAGE {
   UNAUTHORIZED= 'Unauthorized',
@@ -17,13 +17,17 @@ enum HTTP_MESSAGE {
   INVALID_TOKEN= 'Invalid Token!',
 }
 
+enum HTTP_STATUS_CODE {
+  UNAUTHORIZED= 401,
+}
+
 const usePrivateCall = () => {
   const user: user = useSelector(loginSelector.user);
   const logout = useLogout();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   // const dispatch = useDispatch();
   const accessToken = Cookies.get('accessToken');
-  const refreshToken = Cookies.get('refreshToken');
+  // const refreshToken = Cookies.get('refreshToken');
   const { toast } = useToast();
   const refresh = useRefreshToken();
 
@@ -46,7 +50,7 @@ const usePrivateCall = () => {
       async (error) => {
         const prevRequest = error?.config;
         // case need to refresh 
-        if (error?.response?.status === 401 && error?.response?.data?.message === HTTP_MESSAGE.EXPIRED  && !prevRequest?.sent) {
+        if (error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED && error?.response?.data?.message === HTTP_MESSAGE.EXPIRED  && !prevRequest?.sent) {
             prevRequest.sent = true; 
             // const errorMessage = error?.response?.data?.message;
             const response = await refresh();
@@ -55,14 +59,14 @@ const usePrivateCall = () => {
             return axios(prevRequest);
         }
         // case need to log in again
-        if (error?.response?.status === 401 && (error?.response?.data?.message === HTTP_MESSAGE.UNAUTHORIZED
+        if (error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED && (error?.response?.data?.message === HTTP_MESSAGE.UNAUTHORIZED
           ||error?.response?.data?.message === HTTP_MESSAGE.INVALID_TOKEN)   && !prevRequest?.sent) {
           prevRequest.sent = true; 
           logout();
           toast({
-            title: "You need to log in",
+            title: "Lỗi đăng nhập",
             variant: 'destructive',
-            description: "Please log in again",
+            description: "Hãy đăng nhập lại",
           })
           return axios(prevRequest);
       }

@@ -44,22 +44,22 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
       .string()
       .min(8, {
         message:
-          'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character',
+          'Mật khẩu phải chứa ít nhất 8 ký tự.',
       })
-      // .regex(/[A-Z]/, {
-      //   message: 'Password must contain at least one uppercase letter.',
-      // })
+      .regex(/[A-Z]/, {
+        message: 'Mật khẩu phải chứa ít nhất 1 ký tự in hoa.',
+      })
       .regex(/[a-z]/, {
-        message: 'Password must contain at least one lowercase letter.',
+        message: 'Mật khẩu phải chứa ít nhất 1 ký tự in thường.',
       })
       .regex(/[0-9]/, {
-        message: 'Password must contain at least one number.',
+        message: 'Mật khẩu phải chứa ít nhất 1 chữ số.',
+      })
+      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+        message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.',
       }),
-      // .regex(/[!@#$%^&*(),.?":{}|<>]/, {
-      //   message: 'Password must contain at least one special character.',
-      // }),
     role: z.enum(VALUES, {
-      required_error: 'Role is required.',
+      required_error: 'Cần phải chọn vai trò.',
     }),
   });
 
@@ -102,7 +102,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
                 console.log(res.data.data.user);
                 staff.accessToken = accessToken;
                 staff.refreshToken = refreshToken;
-                Cookies.set('accessToken', accessToken); // expires in 7 days
+                Cookies.set('accessToken', accessToken); 
                 Cookies.set('refreshToken', refreshToken);
 
                 dispatch(actions.setUser(staff));

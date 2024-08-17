@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 const defaultURL = import.meta.env.VITE_LOCALHOST_URL as string;
-export interface ApiCallParams {
+export interface ApiCallerParams {
     method: string;
     url: string;
     headers?: Record<string, string>;
@@ -9,14 +9,14 @@ export interface ApiCallParams {
     data?: any;
 }
 
-const ApiCall = (
+const ApiCaller = (
     method: string,
     endpoint: string,
     headers?: Record<string, string>,
     params?: Record<string, any>,
     body?: any
 ) => {
-    const config: ApiCallParams = {
+    const config: ApiCallerParams = {
         method,
         url: defaultURL + endpoint,
         headers: { ...headers },
@@ -30,8 +30,8 @@ export const get = (
     endpoint: string,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): ApiCallParams => {
-    return ApiCall("GET", endpoint, headers, params);
+): ApiCallerParams => {
+    return ApiCaller("GET", endpoint, headers, params);
 };
 
 export const post = (
@@ -39,8 +39,8 @@ export const post = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): ApiCallParams => {
-    return ApiCall("POST", endpoint, headers, params, body);
+): ApiCallerParams => {
+    return ApiCaller("POST", endpoint, headers, params, body);
 };
 
 export const put = (
@@ -48,8 +48,8 @@ export const put = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): ApiCallParams => {
-    return ApiCall("PUT", endpoint, headers, params, body);
+): ApiCallerParams => {
+    return ApiCaller("PUT", endpoint, headers, params, body);
 };
 
 export const remove = (
@@ -57,6 +57,6 @@ export const remove = (
     body?: any,
     params?: Record<string, any>,
     headers?: Record<string, string>
-): ApiCallParams => {
-    return ApiCall("DELETE", endpoint, headers, params, body);
+): ApiCallerParams => {
+    return ApiCaller("DELETE", endpoint, headers, params, body);
 };

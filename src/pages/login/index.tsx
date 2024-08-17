@@ -4,8 +4,8 @@ import backgroud from '@/assets/images/bg-2.jpg';
 const Login: React.FC = () => {
   return (
     <div
-      className="w-full h-full flex justify-center pb-2 bg-white
-    lg:grid lg:grid-cols-6 lg:gap-2 lg:h-screen"
+      className="w-full h-full flex justify-center pb-2 bg-white px-4
+    lg:grid lg:grid-cols-6 lg:gap-2 lg:h-screen lg:px-0"
     >
       <div
         className="hidden
