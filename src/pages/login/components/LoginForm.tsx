@@ -33,7 +33,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
   // const handleGoogleLogin = () => {
   //     window.location.replace(devEnvGoogleAuth());
   // };
-  const { toast } = useToast()
+  const { toast } = useToast();
   const VALUES = ['staff', 'tech', 'manager'] as const;
   const formSchema = z.object({
     email: z.string().email({
@@ -43,8 +43,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
     password: z
       .string()
       .min(8, {
-        message:
-          'Mật khẩu phải chứa ít nhất 8 ký tự.',
+        message: 'Mật khẩu phải chứa ít nhất 8 ký tự.',
       })
       .regex(/[A-Z]/, {
         message: 'Mật khẩu phải chứa ít nhất 1 ký tự in hoa.',
@@ -74,65 +73,64 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     switch (values.role) {
       case 'staff':
-          loginStaff(values.email, values.password);
-          break;
+        loginStaff(values.email, values.password);
+        break;
       case 'tech':
-          // Handle tech role
-          break;
+        // Handle tech role
+        break;
       case 'manager':
-          // Handle manager role
-          break;
+        // Handle manager role
+        break;
       default:
-          // Handle other cases or throw an error
-          break;
-  }
+        // Handle other cases or throw an error
+        break;
+    }
   }
 
-  async function loginStaff(us: string , pw: string) {
+  async function loginStaff(us: string, pw: string) {
     try {
-        const res = await axios(loginStaffApi.login(us, pw))
-        console.log(typeof res.data.statusCode)
-        if (res.status === 201) {
-            switch(res.data.statusCode){
-              case 200:
-                const accessToken = res.data.data.accessToken;
-                const refreshToken = res.data.data.refreshToken;
-                const staff: user = res.data.data.user;
-                console.log('staff',staff);
-                console.log(res.data.data.user);
-                staff.accessToken = accessToken;
-                staff.refreshToken = refreshToken;
-                Cookies.set('accessToken', accessToken); 
-                Cookies.set('refreshToken', refreshToken);
+      const res = await axios(loginStaffApi.login(us, pw));
+      console.log(typeof res.data.statusCode);
+      if (res.status === 201) {
+        switch (res.data.statusCode) {
+          case 200:
+            const accessToken = res.data.data.accessToken;
+            const refreshToken = res.data.data.refreshToken;
+            const staff: user = res.data.data.user;
+            console.log('staff', staff);
+            console.log(res.data.data.user);
+            staff.accessToken = accessToken;
+            staff.refreshToken = refreshToken;
+            Cookies.set('accessToken', accessToken);
+            Cookies.set('refreshToken', refreshToken);
 
-                dispatch(actions.setUser(staff));
-                navigate('/home');
-                break;
-              case 400:
-                toast({
-                  title: "Login Failed",
-                  variant: "destructive",
-                  description: "Bad Request",
-                })
-                break;
-              case 401:
-                console.log(1);
-                toast({
-                  title: "Login Failed",
-                  variant: "destructive",
-                  description: "Password not match",
-                })
-                break;
-            }
-              
+            dispatch(actions.setUser(staff));
+            navigate('/home');
+            break;
+          case 400:
+            toast({
+              title: 'Login Failed',
+              variant: 'destructive',
+              description: 'Bad Request',
+            });
+            break;
+          case 401:
+            console.log(1);
+            toast({
+              title: 'Login Failed',
+              variant: 'destructive',
+              description: 'Password not match',
+            });
+            break;
         }
+      }
     } catch (error) {
-        console.log(error);
-        toast({
-          title: "Login Failed",
-          variant: "destructive",
-          description: "Retry again",
-        })
+      console.log(error);
+      toast({
+        title: 'Login Failed',
+        variant: 'destructive',
+        description: 'Retry again',
+      });
     }
   }
 
@@ -140,16 +138,19 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
     <div className={cn('grid gap-6 lg:mx-10', className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid gap-2">
-            <div className="grid gap-1">
+          <div className="grid gap-3">
+            {/* <div className="grid gap-1"> */}
               <div className="flex justify-center items-center">
                 <FormField
                   control={form.control}
                   name="role"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='w-full'>
+                        <FormLabel className=" text-black mb-2">
+                      Vai trò
+                    </FormLabel>
                       <FormControl>
-                        <SelectRole field={field}/>
+                        <SelectRole field={field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -162,7 +163,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="border-yellowCustom text-black mb-2">
+                    <FormLabel className=" text-black mb-2">
                       Email
                     </FormLabel>
                     <FormControl>
@@ -182,7 +183,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="border-yellowCustom text-black mb-2">
+                    <FormLabel className=" text-black mb-2">
                       Password
                     </FormLabel>
                     <FormControl>
@@ -202,7 +203,7 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
                 Đăng nhập với Email
               </Button>
             </div>
-          </div>
+          {/* </div> */}
         </form>
       </Form>
       <div className="relative">
