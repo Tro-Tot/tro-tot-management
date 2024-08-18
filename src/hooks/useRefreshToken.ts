@@ -6,32 +6,8 @@ import { user } from '@/pages/login/types';
 import { refreshApi } from '@/utils/api/shared/refreshApi';
 
 const useRefreshToken = () => {
-  // const user: user = useSelector(loginSelector.user);
-  // const logout = useLogout();
-  // const navigate = useNavigate();
   const dispatch = useDispatch();
   const refreshToken = Cookies.get('refreshToken');
-  // const { toast } = useToast();
-  // const signOut = async () => {
-  //   await logout();
-  //   toast({
-  //       title: "You have been logged out",
-  //     })
-  //   navigate('/');
-  // };
-
-  // if (user == null) {
-  //   navigate('/');
-  //   console.log('login failed');
-  // }
-  // let accessToken = null;
-  // const auth = Cookies.get('accessToken');
-  // if (auth) {
-  //   accessToken = auth;
-  // } else {
-  //   navigate('/');
-  // }
-
   const refresh = async () => {
     let header = {
       'Refresh-Token': refreshToken,

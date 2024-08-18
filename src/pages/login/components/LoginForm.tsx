@@ -23,6 +23,8 @@ import { useNavigate } from 'react-router-dom';
 import { actions } from '../slice';
 import { user } from '../types';
 import Cookies from 'js-cookie';
+import { HTTP_MESSAGE, HTTP_STATUS_CODE } from '@/constants/httpStatus';
+import { ROLE } from '@/constants/role';
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -45,17 +47,17 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
       .min(8, {
         message: 'Mật khẩu phải chứa ít nhất 8 ký tự.',
       })
-      .regex(/[A-Z]/, {
-        message: 'Mật khẩu phải chứa ít nhất 1 ký tự in hoa.',
-      })
+      // .regex(/[A-Z]/, {
+      //   message: 'Mật khẩu phải chứa ít nhất 1 ký tự in hoa.',
+      // })
       .regex(/[a-z]/, {
         message: 'Mật khẩu phải chứa ít nhất 1 ký tự in thường.',
       })
+      // .regex(/[!@#$%^&*(),.?":{}|<>]/, {
+      //   message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.',
+      // })
       .regex(/[0-9]/, {
         message: 'Mật khẩu phải chứa ít nhất 1 chữ số.',
-      })
-      .regex(/[!@#$%^&*(),.?":{}|<>]/, {
-        message: 'Mật khẩu phải chứa ít nhất 1 ký tự đặc biệt.',
       }),
     role: z.enum(VALUES, {
       required_error: 'Cần phải chọn vai trò.',
@@ -72,65 +74,77 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
   });
   async function onSubmit(values: z.infer<typeof formSchema>) {
     switch (values.role) {
-      case 'staff':
-        loginStaff(values.email, values.password);
+      case ROLE.STAFF:
+        login(ROLE.STAFF, values.email, values.password);
         break;
-      case 'tech':
-        // Handle tech role
+      case ROLE.TECH:
+        login(ROLE.TECH, values.email, values.password);
         break;
-      case 'manager':
-        // Handle manager role
+      case ROLE.MANAGER:
+        login(ROLE.MANAGER, values.email, values.password);
         break;
       default:
-        // Handle other cases or throw an error
+        toast({
+          title: 'Lỗi đăng nhập',
+          variant: 'destructive',
+          description: 'Đã có lỗi xảy ra',
+        });
         break;
     }
   }
 
-  async function loginStaff(us: string, pw: string) {
+  async function login(role: string, us: string, pw: string) {
     try {
-      const res = await axios(loginStaffApi.login(us, pw));
-      console.log(typeof res.data.statusCode);
-      if (res.status === 201) {
-        switch (res.data.statusCode) {
-          case 200:
-            const accessToken = res.data.data.accessToken;
-            const refreshToken = res.data.data.refreshToken;
-            const staff: user = res.data.data.user;
-            console.log('staff', staff);
-            console.log(res.data.data.user);
-            staff.accessToken = accessToken;
-            staff.refreshToken = refreshToken;
-            Cookies.set('accessToken', accessToken);
-            Cookies.set('refreshToken', refreshToken);
-
-            dispatch(actions.setUser(staff));
-            navigate('/home');
-            break;
-          case 400:
-            toast({
-              title: 'Login Failed',
-              variant: 'destructive',
-              description: 'Bad Request',
-            });
-            break;
-          case 401:
-            console.log(1);
-            toast({
-              title: 'Login Failed',
-              variant: 'destructive',
-              description: 'Password not match',
-            });
-            break;
-        }
+      let res;
+      switch (role) {
+        case ROLE.MANAGER:
+          res = await axios(loginStaffApi.login(us, pw));
+          break;
+        case ROLE.STAFF:
+          res = await axios(loginStaffApi.login(us, pw));
+          break;
+        case ROLE.TECH:
+          res = await axios(loginStaffApi.login(us, pw));
+          break;
+        default:
+          throw new Error('Invalid role');
       }
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: 'Login Failed',
-        variant: 'destructive',
-        description: 'Retry again',
-      });
+      const accessToken = res.data.data.accessToken;
+      const refreshToken = res.data.data.refreshToken;
+      const staff: user = res.data.data.user;
+
+      staff.accessToken = accessToken;
+      staff.refreshToken = refreshToken;
+      Cookies.set('accessToken', accessToken);
+      Cookies.set('refreshToken', refreshToken);
+
+      dispatch(actions.setUser(staff));
+      navigate('/home');
+    } catch (error: any) {
+      const message = error.response.data.message;
+      switch (message) {
+        case HTTP_STATUS_CODE.NOT_FOUND:
+          toast({
+            title: 'Lỗi đăng nhập',
+            variant: 'destructive',
+            description: 'Email không tồn tại',
+          });
+          break;
+        case HTTP_MESSAGE.INVALID_PW:
+          toast({
+            title: 'Lỗi đăng nhập',
+            variant: 'destructive',
+            description: 'Mật khẩu không đúng',
+          });
+          break;
+        default:
+          toast({
+            title: 'Lỗi đăng nhập',
+            variant: 'destructive',
+            description: 'Đã có lỗi xảy ra',
+          });
+          break;
+      }
     }
   }
 
@@ -140,69 +154,63 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <div className="grid gap-3">
             {/* <div className="grid gap-1"> */}
-              <div className="flex justify-center items-center">
-                <FormField
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem className='w-full'>
-                        <FormLabel className=" text-black mb-2">
-                      Vai trò
-                    </FormLabel>
-                      <FormControl>
-                        <SelectRole field={field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
+            <div className="flex justify-center items-center">
               <FormField
                 control={form.control}
-                name="email"
+                name="role"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className=" text-black mb-2">
-                      Email
-                    </FormLabel>
+                  <FormItem className="w-full">
+                    <FormLabel className=" text-black mb-2">Vai trò</FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder="Email..."
-                        {...field}
-                        className="text-black mb-4"
-                      />
+                      <SelectRole field={field} />
                     </FormControl>
-
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className=" text-black mb-2">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Password..."
-                        type="password"
-                        {...field}
-                        className="text-black mb-4"
-                      />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button className="mt-5" variant={'bluePrimary'} type="submit">
-                Đăng nhập với Email
-              </Button>
             </div>
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className=" text-black mb-2">Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Email..."
+                      {...field}
+                      className="text-black mb-4"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className=" text-black mb-2">Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Password..."
+                      type="password"
+                      {...field}
+                      className="text-black mb-4"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button className="mt-5" variant={'bluePrimary'} type="submit">
+              Đăng nhập với Email
+            </Button>
+          </div>
           {/* </div> */}
         </form>
       </Form>

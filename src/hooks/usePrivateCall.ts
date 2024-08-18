@@ -8,18 +8,10 @@ import { user } from '@/pages/login/types';
 // import { useNavigate } from 'react-router-dom';
 import useLogout from './useLogout';
 import { useToast } from './use-toast';
+import { HTTP_MESSAGE, HTTP_STATUS_CODE } from '@/constants/httpStatus';
 // import { refreshApi } from '@/utils/api/shared/refreshApi';
 // import { actions } from '@/pages/login/slice';
 
-enum HTTP_MESSAGE {
-  UNAUTHORIZED= 'Unauthorized',
-  EXPIRED= 'Jwt Expired!',
-  INVALID_TOKEN= 'Invalid Token!',
-}
-
-enum HTTP_STATUS_CODE {
-  UNAUTHORIZED= 401,
-}
 
 const usePrivateCall = () => {
   const user: user = useSelector(loginSelector.user);
@@ -52,7 +44,6 @@ const usePrivateCall = () => {
         // case need to refresh 
         if (error?.response?.status === HTTP_STATUS_CODE.UNAUTHORIZED && error?.response?.data?.message === HTTP_MESSAGE.EXPIRED  && !prevRequest?.sent) {
             prevRequest.sent = true; 
-            // const errorMessage = error?.response?.data?.message;
             const response = await refresh();
             const newAccessToken = response.accessToken;
             prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
