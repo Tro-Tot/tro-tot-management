@@ -1,10 +1,7 @@
 import { Button } from '@/components/ui/button';
+import RouterComponent from './routes';
 
 function App() {
-  return (
-    <div className="App">
-      <span className="text-primaryLight">Settings</span>
-    </div>
-  );
+  return <RouterComponent />;
 }
 export default App;
