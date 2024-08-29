@@ -16,6 +16,8 @@ import { Button } from '@/components/ui/button';
 import Google from '@/assets/images/Google.png';
 import SelectRole from './SelectRole';
 import { loginApi as loginStaffApi } from '@/utils/api/staff/authApi';
+import { loginApi as loginTechApi } from '@/utils/api/tech/authApi';
+import { loginApi as loginManagerApi } from '@/utils/api/manager/authApi';
 import axios from 'axios';
 import { useToast } from '@/hooks/use-toast';
 import { useDispatch } from 'react-redux';
@@ -98,13 +100,13 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
       let res;
       switch (role) {
         case ROLE.MANAGER:
-          res = await axios(loginStaffApi.login(us, pw));
+          res = await axios(loginManagerApi.login(us, pw));
           break;
         case ROLE.STAFF:
           res = await axios(loginStaffApi.login(us, pw));
           break;
         case ROLE.TECH:
-          res = await axios(loginStaffApi.login(us, pw));
+          res = await axios(loginTechApi.login(us, pw));
           break;
         default:
           throw new Error('Invalid role');
@@ -122,29 +124,11 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
       navigate('/home');
     } catch (error: any) {
       const message = error.response.data.message;
-      switch (message) {
-        case HTTP_STATUS_CODE.NOT_FOUND:
-          toast({
-            title: 'Lỗi đăng nhập',
-            variant: 'destructive',
-            description: 'Email không tồn tại',
-          });
-          break;
-        case HTTP_MESSAGE.INVALID_PW:
-          toast({
-            title: 'Lỗi đăng nhập',
-            variant: 'destructive',
-            description: 'Mật khẩu không đúng',
-          });
-          break;
-        default:
-          toast({
-            title: 'Lỗi đăng nhập',
-            variant: 'destructive',
-            description: 'Đã có lỗi xảy ra',
-          });
-          break;
-      }
+      toast({
+        title: 'Lỗi đăng nhập',
+        variant: 'destructive',
+        description: message,
+      });
     }
   }
 
