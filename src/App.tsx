@@ -1,10 +1,10 @@
-// import RouterComponent from '@';
-
-import RouterComponent from "./routes";
+import RouterComponent from './routes';
 
 function App() {
   return (
-    <RouterComponent/>
+    <div className="App">
+      <RouterComponent />
+    </div>
   );
 }
 export default App;
