@@ -12,10 +12,12 @@ import Home from '@/pages/home';
 import Login from '@/pages/login';
 import Test from '@/pages/test';
 import ManagerLayout from '@/layouts/ManagerLayout';
+import StaffRouter from './StaffRouter';
+import StaffLayout from '@/layouts/StaffLayout';
 
 const RouterComponent: React.FC = () => {
   const router = createBrowserRouter([
-    { path: '/', element: <Navigate to="home" /> },
+    { path: '/', element: <Navigate to="login" /> },
 
     {
       element: <ManagerRoute />,
@@ -48,7 +50,23 @@ const RouterComponent: React.FC = () => {
           element: <CustomerLayout />,
           children: [
             {
-              path: 'home',
+              path: '/renter/home',
+              element: <Home />,
+            },
+          ],
+        },
+      ],
+    },
+
+    {
+      path: '/',
+      element: <StaffRouter />,
+      children: [
+        {
+          element: <StaffLayout />,
+          children: [
+            {
+              path: '/staff/home',
               element: <Home />,
             },
           ],
