@@ -113,15 +113,21 @@ const LoginForm: React.FC = ({ className, ...props }: UserAuthFormProps) => {
       }
       const accessToken = res.data.data.accessToken;
       const refreshToken = res.data.data.refreshToken;
-      const staff: user = res.data.data.user;
+      const user: user = res.data.data.user;
 
-      staff.accessToken = accessToken;
-      staff.refreshToken = refreshToken;
+      user.accessToken = accessToken;
+      user.refreshToken = refreshToken;
       Cookies.set('accessToken', accessToken);
       Cookies.set('refreshToken', refreshToken);
 
-      dispatch(actions.setUser(staff));
-      navigate('/home');
+      dispatch(actions.setUser(user));
+      if (role === ROLE.STAFF) {
+        navigate('/staff/home');
+      } else if (role === ROLE.TECH) {
+        navigate('/tech/home');
+      } else {
+        navigate('/renter/home');
+      }
     } catch (error: any) {
       const message = error.response.data.message;
       toast({
