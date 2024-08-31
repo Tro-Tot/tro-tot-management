@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 import { Navigate, Outlet } from 'react-router-dom';
 
-const CustomerLayout: React.FC = () => {
+const StaffLayout: React.FC = () => {
 
   const iconSize = 22;
   const Menus = [
@@ -27,4 +27,4 @@ const CustomerLayout: React.FC = () => {
   );
 };
 
-export default CustomerLayout;
+export default StaffLayout;

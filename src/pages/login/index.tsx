@@ -1,6 +1,7 @@
 import { Label } from '@/components/ui/label';
 import LoginForm from './components/LoginForm'; 
 import backgroud from '@/assets/images/bg-2.jpg'; 
+import logo from '@/assets/images/logo-with-title.png'
 const Login: React.FC = () => {
   return (
     <div
@@ -22,7 +23,7 @@ const Login: React.FC = () => {
         <div className="flex flex-col shrink justify-center items-center">
           <div className="">
             <img
-              src="/public/logo-with-title.png"
+              src={logo}
               alt="Image"
               className="lg:h-40 object-cover"
             />
