@@ -14,6 +14,7 @@ import Test from '@/pages/test';
 import ManagerLayout from '@/layouts/ManagerLayout';
 import StaffRouter from './StaffRouter';
 import StaffLayout from '@/layouts/StaffLayout';
+import House from '@/pages/house';
 
 const RouterComponent: React.FC = () => {
   const router = createBrowserRouter([
@@ -72,6 +73,10 @@ const RouterComponent: React.FC = () => {
           ],
         },
       ],
+    },
+    {
+      path: '/house',
+      element: <House />,
     },
 
     // { path: '*', element: <ErrorPage /> },
