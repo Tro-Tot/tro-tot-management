@@ -76,7 +76,7 @@
   }
 }
 
-/* styles.css */
+/* Collapsible  */
 .CollapsibleContent {
   overflow: hidden;
 }
@@ -103,4 +103,10 @@
   to {
     height: 0;
   }
+}
+
+/* Popover */
+.PopoverContent {
+  width: var(--radix-popover-trigger-width);
+  max-height: var(--radix-popover-content-available-height);
 }
