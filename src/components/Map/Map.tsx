@@ -31,7 +31,7 @@ const MapComponent: React.FC<MapProps> = ({
   zoom,
   markers,
   scrollWheelZoom = false,
-  className = 'h-[1000px] w-[1000px]',
+  className = 'h-[1000px] w-full',
 }) => {
   return (
     <MapContainer
