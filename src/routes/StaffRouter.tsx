@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
 const StaffRouter = () => {
-  const user: user = useSelector(loginSelector.user);
-  console.log('StaffRouter');
-    const role = user.role.name.toLowerCase();
+  // const user: user = useSelector(loginSelector.user);
+  // console.log('StaffRouter');
+  //   const role = user.role.name.toLowerCase();
 //   if (user === null) {
 //     return <Navigate to="/login" replace />;
 //   }
